@@ -1,23 +1,20 @@
 from datetime import datetime, timedelta
-from passlib.context import CryptContext
 from jose import JWTError, jwt
-from sqlalchemy.orm import Session
-from app.database.models import User
+import hashlib
 
-SECRET_KEY = "your-secret-key-change-in-production"
+SECRET_KEY = "your-secret-key-change-this-in-production"
 ALGORITHM = "HS256"
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password
 
 def create_access_token(data: dict):
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(hours=24)
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -25,9 +22,13 @@ def create_access_token(data: dict):
 def verify_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload.get("sub")
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            return None
+        return user_id
     except JWTError:
         return None
 
-def get_user_by_id(db: Session, user_id: str):
+def get_user_by_id(db, user_id: str):
+    from app.database.models import User
     return db.query(User).filter(User.id == user_id).first()

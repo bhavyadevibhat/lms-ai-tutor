@@ -17,6 +17,6 @@ class CourseResponse(BaseModel):
     level: str
     price: float
     created_at: datetime
-    
+
     class Config:
         from_attributes = True

@@ -18,7 +18,7 @@ class UserResponse(BaseModel):
     full_name: str
     role: str
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
 
