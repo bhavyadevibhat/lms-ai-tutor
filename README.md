@@ -1,16 +1,15 @@
 # LMS AI Tutor
 
-AI-Powered Learning Management System
+AI-powered Learning Management System (FastAPI backend).
 
 ## Features
-- User authentication
-- Course management
-- AI-generated quizzes
-- Auto-grading
-- Tutoring chatbot
+- User authentication (JWT)
+- Course management and enrollment
+- AI-generated quizzes (planned)
+- Tutoring chatbot (planned)
 
-## Setup
-See docs/SETUP.md
+## Run
+Open the Colab notebook, add the secrets listed in its first cell, and run all cells.
 
 ## Status
-Week 1 - Backend scaffolding
+Phase 1: backend scaffolding done. Phase 2: Claude integration.

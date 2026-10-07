@@ -1,6 +1,5 @@
 __pycache__/
 *.py[cod]
-.Python
 venv/
 ENV/
 .vscode/
@@ -9,6 +8,6 @@ ENV/
 *.db
 *.log
 .DS_Store
-node_modules/
 .pytest_cache/
-.coverage
+.ipynb_checkpoints/
+PUBLIC_URL.txt

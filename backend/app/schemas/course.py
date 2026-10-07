@@ -1,5 +1,5 @@
-from pydantic import BaseModel
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict
 
 class CourseCreate(BaseModel):
     title: str
@@ -9,6 +9,8 @@ class CourseCreate(BaseModel):
     price: float = 0
 
 class CourseResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: str
     instructor_id: str
     title: str
@@ -17,6 +19,3 @@ class CourseResponse(BaseModel):
     level: str
     price: float
     created_at: datetime
-
-    class Config:
-        from_attributes = True
